@@ -5,9 +5,9 @@ import {
 } from '@nestjs/common';
 import { sign, SignOptions, verify, VerifyOptions } from 'jsonwebtoken';
 import { ITokenService } from '../../App/Ports/Repositories/ITokenService';
-import { IEnviromentService } from '../../App/Ports/Services/IEnviromentService';
 import { EnvVariablesEnum } from '../../Domain/Shared/Enums/EnvVariablesEnum';
 import { IPayload } from '../../Domain/Shared/Interfaces/IPayload';
+import { EnviromentService } from './enviroment.service';
 
 @Injectable()
 export class TokenService implements ITokenService {
@@ -16,7 +16,7 @@ export class TokenService implements ITokenService {
   private readonly refreshSecret: string;
   private readonly refreshExpiresIn: number;
 
-  constructor(enviromentService: IEnviromentService) {
+  constructor(enviromentService: EnviromentService) {
     this.accessSecret = enviromentService.get(EnvVariablesEnum.TOKEN_SECRET);
     this.accessExpiresIn = enviromentService.get(
       EnvVariablesEnum.TOKEN_EXPIRES_IN,

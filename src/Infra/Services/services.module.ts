@@ -2,9 +2,10 @@ import { Module, Provider } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { validateEnvVariables } from '../Config/ConfigModule/validate';
 import { EnviromentService } from './enviroment.service';
+import { HashService } from './hash.service';
 import { TokenService } from './token.service';
 
-const services: Provider[] = [TokenService, EnviromentService];
+const services: Provider[] = [EnviromentService, HashService, TokenService];
 
 @Module({
   imports: [

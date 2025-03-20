@@ -1,11 +1,5 @@
 import { Expose } from 'class-transformer';
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  Matches,
-  ValidateIf,
-} from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, Matches } from 'class-validator';
 
 export class EnvClass {
   @Matches(/^postgresql:\/\/([^:]+):([^@]+)@([^:]+):(\d+)\/(.+)$/, {
@@ -15,11 +9,9 @@ export class EnvClass {
   @Expose()
   DATABASE_URL: string;
 
-  @ValidateIf((obj) => typeof obj.value === 'string')
-  @IsString()
-  @ValidateIf((obj) => typeof obj.value === 'number')
   @IsNumber()
-  HASH_SALT_ROUNDS: string | number;
+  @Expose()
+  HASH_ROUNDS: number;
 
   @IsString()
   @IsNotEmpty()
