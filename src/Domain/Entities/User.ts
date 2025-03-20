@@ -6,6 +6,8 @@ export class User extends BaseEntity {
   public name: string;
   public email: string;
   public verifiedEmail: boolean;
+
+  @Exclude()
   public type: UserTypeEnum;
 
   @Exclude()
