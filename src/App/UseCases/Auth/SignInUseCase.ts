@@ -2,9 +2,9 @@ import { InvalidCredentialsException } from '../../../Domain/Errors/Auth/Invalid
 import { SignInDto } from '../../../Domain/Shared/Dtos/Auth/SignInDto';
 import { ISignResponse } from '../../../Domain/Shared/Interfaces/ISignInResponse';
 import { IUseCase } from '../../../Domain/Shared/Interfaces/IUseCase';
-import { IHashService } from '../../Ports/Repositories/IHashService';
-import { ITokenService } from '../../Ports/Repositories/ITokenService';
 import { IUserRepository } from '../../Ports/Repositories/IUsersRepository';
+import { IHashService } from '../../Ports/Services/IHashService';
+import { ITokenService } from '../../Ports/Services/ITokenService';
 
 export class SignInUseCase implements IUseCase<ISignResponse, [SignInDto]> {
   constructor(

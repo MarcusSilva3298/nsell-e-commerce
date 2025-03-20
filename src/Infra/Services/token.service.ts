@@ -4,7 +4,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { sign, SignOptions, verify, VerifyOptions } from 'jsonwebtoken';
-import { ITokenService } from '../../App/Ports/Repositories/ITokenService';
+import { ITokenService } from '../../App/Ports/Services/ITokenService';
 import { EnvVariablesEnum } from '../../Domain/Shared/Enums/EnvVariablesEnum';
 import { IPayload } from '../../Domain/Shared/Interfaces/IPayload';
 import { EnviromentService } from './enviroment.service';

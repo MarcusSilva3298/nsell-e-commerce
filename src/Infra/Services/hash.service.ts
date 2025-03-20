@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { compare, hash } from 'bcrypt';
-import { IHashService } from '../../App/Ports/Repositories/IHashService';
+import { IHashService } from '../../App/Ports/Services/IHashService';
 import { EnvVariablesEnum } from '../../Domain/Shared/Enums/EnvVariablesEnum';
 import { EnviromentService } from './enviroment.service';
 
