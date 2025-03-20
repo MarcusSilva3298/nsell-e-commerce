@@ -1,6 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Module, Provider } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { validateEnvVariables } from '../Config/ConfigModule/validate';
+import { EnviromentService } from './enviroment.service';
+import { TokenService } from './token.service';
+
+const services: Provider[] = [TokenService, EnviromentService];
 
 @Module({
   imports: [
@@ -9,5 +13,7 @@ import { validateEnvVariables } from '../Config/ConfigModule/validate';
       validate: validateEnvVariables,
     }),
   ],
+  providers: services,
+  exports: services,
 })
 export class ServicesModule {}
