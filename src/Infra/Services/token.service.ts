@@ -52,7 +52,10 @@ export class TokenService implements ITokenService {
       return verify(token, secret, options) as IPayload;
     } catch (error) {
       if (error.message === 'jwt malformed')
-        throw new UnauthorizedException('Invalid token!');
+        throw new UnauthorizedException('Invalid token');
+
+      if (error.message === 'jwt expired')
+        throw new UnauthorizedException('Invalid token');
 
       throw new InternalServerErrorException(error, 'Faile to verify token!');
     }
