@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Inject,
   Param,
   Put,
@@ -18,6 +19,9 @@ import { AuthGuard } from '../Guards/auth.guard';
 @Controller('/clients')
 export class ClientsController {
   constructor(
+    @Inject(ClientsUseCasesEnum.READ)
+    private readonly readClientUseCase: IUseCase<Client, [string, User]>,
+
     @Inject(ClientsUseCasesEnum.UPDATE)
     private readonly updateClientUseCase: IUseCase<
       Client,
@@ -25,8 +29,13 @@ export class ClientsController {
     >,
   ) {}
 
+  @Get('/:id')
+  read(@Param('id') clientId: string, @GetUser() user: User): Promise<Client> {
+    return this.readClientUseCase.execute(clientId, user);
+  }
+
   @Put('/:id')
-  signIn(
+  update(
     @Param('id') clientId: string,
     @Body() body: UpdateClientDto,
     @GetUser() user: User,

@@ -1,0 +1,26 @@
+meta {
+  name: Read Client
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/clients/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: 0195b67d-6856-71df-a45e-29f6ce5b91a0
+}
+
+body:json {
+  {
+    "name": "Rebekahebababa",
+    "fullname": "Rebekah Durnell",
+    "email": "rdurnell1@opensource.org",
+    "address": "11th Floor",
+    "contact": "866-166-7341",
+    "password": "123456"
+  }
+}
