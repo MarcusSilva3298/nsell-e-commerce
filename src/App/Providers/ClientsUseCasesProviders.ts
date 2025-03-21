@@ -2,6 +2,7 @@ import { Provider } from '@nestjs/common';
 import { ClientsUseCasesEnum } from '../../Domain/Shared/Enums/ClientsUseCasesEnum';
 import { ClientsRepository } from '../../Infra/Database/Repositories/ClientsRepository';
 import { IClientsRepository } from '../Ports/Repositories/IClientsRepository';
+import { DeleteClientUseCase } from '../UseCases/Clients/DeleteClientUseCase';
 import { ReadClientUseCase } from '../UseCases/Clients/ReadClientUseCase';
 import { UpdateClientUseCase } from '../UseCases/Clients/UpdateClientUseCase';
 
@@ -19,5 +20,11 @@ export const clientsProviders: Provider[] = [
     inject: [ClientsRepository],
     useFactory: (clientsRepository: IClientsRepository) =>
       new UpdateClientUseCase(clientsRepository),
+  },
+  {
+    provide: ClientsUseCasesEnum.DELETE,
+    inject: [ClientsRepository],
+    useFactory: (clientsRepository: IClientsRepository) =>
+      new DeleteClientUseCase(clientsRepository),
   },
 ];

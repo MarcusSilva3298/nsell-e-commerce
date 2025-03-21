@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Param,
@@ -27,6 +28,9 @@ export class ClientsController {
       Client,
       [string, User, UpdateClientDto]
     >,
+
+    @Inject(ClientsUseCasesEnum.DELETE)
+    private readonly deleteClientUseCase: IUseCase<Client, [string, User]>,
   ) {}
 
   @Get('/:id')
@@ -41,5 +45,13 @@ export class ClientsController {
     @GetUser() user: User,
   ): Promise<Client> {
     return this.updateClientUseCase.execute(clientId, user, body);
+  }
+
+  @Delete('/:id')
+  delete(
+    @Param('id') clientId: string,
+    @GetUser() user: User,
+  ): Promise<Client> {
+    return this.deleteClientUseCase.execute(clientId, user);
   }
 }

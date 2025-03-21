@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { v7 } from 'uuid';
 import { IClientsRepository } from '../../../App/Ports/Repositories/IClientsRepository';
 import { Client } from '../../../Domain/Entities/Client';
-import { UserNotFoundException } from '../../../Domain/Errors/Users/UserNotFound';
 import { SignUpDto } from '../../../Domain/Shared/Dtos/Auth/SignUpDto';
 import { UpdateClientDto } from '../../../Domain/Shared/Dtos/Clients/UpdateClientDto';
 import { DatabaseService } from '../database.service';
@@ -51,16 +50,16 @@ export class ClientsRepository implements IClientsRepository {
     });
   }
 
-  async delete(id: string): Promise<Client> {
-    const clientExists = await this.findById(id);
-
-    if (!clientExists) throw new UserNotFoundException();
-
-    const email = clientExists.User.email.concat(new Date().toISOString());
+  async delete(client: Client): Promise<Client> {
+    const email = client.User.email.concat(new Date().toISOString());
+    const now = new Date();
 
     return await this.database.client.update({
-      where: { id },
-      data: { deletedAt: new Date(), User: { update: { email } } },
+      where: { id: client.id },
+      data: {
+        deletedAt: now,
+        User: { update: { email, deletedAt: now } },
+      },
       include: { User: true },
     });
   }

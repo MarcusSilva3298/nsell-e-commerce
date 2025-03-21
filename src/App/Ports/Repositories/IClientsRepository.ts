@@ -6,5 +6,5 @@ export interface IClientsRepository {
   create(data: SignUpDto): Promise<Client>;
   update(id: string, data: UpdateClientDto): Promise<Client>;
   findById(id: string): Promise<Client | null>;
-  delete(id: string): Promise<Client>;
+  delete(client: Client): Promise<Client>;
 }
