@@ -43,6 +43,23 @@ export class ProductsRepository implements IProductRepository {
     return { connect, create };
   }
 
+  async validateTags(tags: TagsFactoryDto[]): Promise<boolean> {
+    const queries: any[] = [];
+
+    tags.forEach((tag) => {
+      if (tag.id) {
+        const query = this.database.tag.findUnique({
+          where: { id: tag.id, deletedAt: null },
+        });
+        queries.push(query);
+      }
+    });
+
+    const results = await this.database.$transaction(queries);
+
+    return results.every((result) => result !== null);
+  }
+
   async create(body: ProductsFactoryDto): Promise<Product> {
     const { create, connect } = this.createOrConnectTags(body.Tags);
 
