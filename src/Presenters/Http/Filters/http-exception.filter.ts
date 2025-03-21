@@ -3,13 +3,9 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import { Response } from 'express';
-
-interface IErrorResponse {
-  status: number;
-  message: string;
-}
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -17,21 +13,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
 
-    let errorResponse: IErrorResponse;
     if (exception instanceof HttpException) {
-      errorResponse = {
-        status: exception.getStatus(),
-        message: exception.message,
-      };
+      response.status(exception.getStatus()).json(exception.getResponse());
     } else {
-      errorResponse = {
-        status: 500,
-        message: 'Internal Server Error',
-      };
+      const newException = new InternalServerErrorException(exception);
+
+      response
+        .status(newException.getStatus())
+        .json(newException.getResponse());
     }
-
-    if (errorResponse.status === 500) console.log(exception);
-
-    response.status(errorResponse.status).json(errorResponse);
   }
 }
