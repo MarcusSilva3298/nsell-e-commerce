@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "NSell E-Commerce",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
