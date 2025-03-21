@@ -4,10 +4,16 @@ import { DatabaseModule } from '../../Infra/Database/database.module';
 import { ServicesModule } from '../../Infra/Services/services.module';
 import { AuthController } from './Controllers/auth.controller';
 import { ClientsController } from './Controllers/clients.controller';
+import { ProductsController } from './Controllers/products.controller';
 import { HttpController } from './http.controller';
 
 @Module({
   imports: [AppModule, ServicesModule, DatabaseModule],
-  controllers: [HttpController, AuthController, ClientsController],
+  controllers: [
+    HttpController,
+    AuthController,
+    ClientsController,
+    ProductsController,
+  ],
 })
 export class HttpModule {}
