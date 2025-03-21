@@ -56,3 +56,31 @@ model Client {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 }
+
+model Product {
+  id String @id
+
+  name        String
+  description String?
+  price       Float
+  stock       Int
+
+  Tags Tag[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model Tag {
+  id String @id
+
+  label String
+  value String
+
+  Products Product[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
