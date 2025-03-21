@@ -5,10 +5,12 @@ import {
   Inject,
   Param,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { Product } from '../../../Domain/Entities/Product';
 import { ProductsFactoryDto } from '../../../Domain/Shared/Dtos/Products/ProductsFactoryDto';
+import { SearchProductsQueryDto } from '../../../Domain/Shared/Dtos/Products/SearchProductsQueryDto';
 import { ProductsUseCasesEnum } from '../../../Domain/Shared/Enums/ProductsUseCasesenum';
 import { IUseCase } from '../../../Domain/Shared/Interfaces/IUseCase';
 import { AdminOnly } from '../Guards/admin-only.guard';
@@ -26,6 +28,12 @@ export class ProductsController {
 
     @Inject(ProductsUseCasesEnum.READ)
     private readonly readProductUseCase: IUseCase<Product, [string]>,
+
+    @Inject(ProductsUseCasesEnum.SEARCH)
+    private readonly searchProductsUseCase: IUseCase<
+      Product[],
+      [SearchProductsQueryDto]
+    >,
   ) {}
 
   @UseGuards(AdminOnly)
@@ -37,5 +45,10 @@ export class ProductsController {
   @Get(':id')
   read(@Param('id') id: string): Promise<Product> {
     return this.readProductUseCase.execute(id);
+  }
+
+  @Get()
+  search(@Query() queries: SearchProductsQueryDto): Promise<Product[]> {
+    return this.searchProductsUseCase.execute(queries);
   }
 }

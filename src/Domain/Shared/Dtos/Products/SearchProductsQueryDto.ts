@@ -1,4 +1,4 @@
-import { IsArray, IsOptional, IsString } from 'class-validator';
+import { IsBooleanString, IsOptional, IsString } from 'class-validator';
 
 export class SearchProductsQueryDto {
   @IsString()
@@ -6,11 +6,10 @@ export class SearchProductsQueryDto {
   query: string;
 
   @IsString()
-  @IsArray()
   @IsOptional()
-  tags: string[];
+  tags: string;
 
-  @IsString()
+  @IsBooleanString()
   @IsOptional()
-  inStock: boolean;
+  inStock: string;
 }

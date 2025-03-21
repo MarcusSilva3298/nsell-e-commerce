@@ -113,12 +113,12 @@ export class ProductsRepository implements IProductRepository {
         AND: [
           { deletedAt: null },
           filters.inStock
-            ? filters.inStock === true
+            ? filters.inStock === 'true'
               ? { stock: { gt: 0 } }
               : { stock: 0 }
             : {},
           filters.tags
-            ? { Tags: { some: { value: { in: filters.tags } } } }
+            ? { Tags: { some: { value: { in: filters.tags.split(',') } } } }
             : {},
           filters.query
             ? {
