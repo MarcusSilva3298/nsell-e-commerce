@@ -3,15 +3,11 @@ import { Client } from '../../Entities/Client';
 import { User } from '../../Entities/User';
 
 export class PresentersUtils {
-  static presentUser(data: any): Record<string, any> {
-    const convertedPrismaEntity = plainToInstance(User, data);
-
-    return instanceToPlain(convertedPrismaEntity);
+  static presentUser(data: any): User {
+    return plainToInstance(User, instanceToPlain(data));
   }
 
-  static presentClient(data: any): Record<string, any> {
-    const convertedPrismaEntity = plainToInstance(Client, data);
-
-    return instanceToPlain(convertedPrismaEntity);
+  static presentClient(data: any): Client {
+    return plainToInstance(Client, instanceToPlain(data));
   }
 }
