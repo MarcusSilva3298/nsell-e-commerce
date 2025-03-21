@@ -3,6 +3,7 @@ import { v7 } from 'uuid';
 import { IClientsRepository } from '../../../App/Ports/Repositories/IClientsRepository';
 import { Client } from '../../../Domain/Entities/Client';
 import { SignUpDto } from '../../../Domain/Shared/Dtos/Auth/SignUpDto';
+import { SearchClientsQueryDto } from '../../../Domain/Shared/Dtos/Clients/SearchClientsQueryDto';
 import { UpdateClientDto } from '../../../Domain/Shared/Dtos/Clients/UpdateClientDto';
 import { DatabaseService } from '../database.service';
 
@@ -61,6 +62,44 @@ export class ClientsRepository implements IClientsRepository {
         User: { update: { email, deletedAt: now } },
       },
       include: { User: true },
+    });
+  }
+
+  async search(filters: SearchClientsQueryDto): Promise<Client[]> {
+    console.log(filters);
+
+    return await this.database.client.findMany({
+      include: { User: true },
+      where: {
+        AND: [
+          { deletedAt: null },
+          filters.name
+            ? {
+                OR: [
+                  { fullname: { contains: filters.name, mode: 'insensitive' } },
+                  {
+                    User: {
+                      name: { contains: filters.name, mode: 'insensitive' },
+                    },
+                  },
+                ],
+              }
+            : {},
+          filters.email
+            ? {
+                User: {
+                  email: { contains: filters.email, mode: 'insensitive' },
+                },
+              }
+            : {},
+          filters.contact
+            ? { contact: { contains: filters.contact, mode: 'insensitive' } }
+            : {},
+          filters.address
+            ? { address: { contains: filters.address, mode: 'insensitive' } }
+            : {},
+        ],
+      },
     });
   }
 }

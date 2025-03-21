@@ -4,11 +4,18 @@ import { ClientsRepository } from '../../Infra/Database/Repositories/ClientsRepo
 import { IClientsRepository } from '../Ports/Repositories/IClientsRepository';
 import { DeleteClientUseCase } from '../UseCases/Clients/DeleteClientUseCase';
 import { ReadClientUseCase } from '../UseCases/Clients/ReadClientUseCase';
+import { SearchClienstUseCase } from '../UseCases/Clients/SearchClientsUseCase';
 import { UpdateClientUseCase } from '../UseCases/Clients/UpdateClientUseCase';
 
 export const clientsExports: string[] = Object.values(ClientsUseCasesEnum);
 
 export const clientsProviders: Provider[] = [
+  {
+    provide: ClientsUseCasesEnum.SEARCH,
+    inject: [ClientsRepository],
+    useFactory: (clientsRepository: IClientsRepository) =>
+      new SearchClienstUseCase(clientsRepository),
+  },
   {
     provide: ClientsUseCasesEnum.READ,
     inject: [ClientsRepository],
