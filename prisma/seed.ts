@@ -1,4 +1,4 @@
-import { PrismaClient, UserType } from '@prisma/client';
+import { PrismaClient, UserTypeEnum } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -13,7 +13,7 @@ async function seed() {
       email: adminEmail,
       name: 'admin',
       password: '$2b$06$5oUqtLcaN6Sx/B/PMAvFmuudTowllwkE.gAuFyFMCitbuPMQ4rWZe',
-      type: UserType.ADMIN,
+      type: UserTypeEnum.ADMIN,
       verifiedEmail: true,
     },
   });

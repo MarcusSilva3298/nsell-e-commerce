@@ -21,7 +21,7 @@ datasource db {
 // deletedAt DateTime?
 // }
 
-enum UserType {
+enum UserTypeEnum {
   CLIENT
   ADMIN
 }
@@ -30,10 +30,10 @@ model User {
   id String @id @default(uuid())
 
   name          String
-  email         String   @unique
-  verifiedEmail Boolean
+  email         String       @unique
+  verifiedEmail Boolean      @default(false)
   password      String
-  type          UserType
+  type          UserTypeEnum @default(value: CLIENT)
 
   Client Client?
 
