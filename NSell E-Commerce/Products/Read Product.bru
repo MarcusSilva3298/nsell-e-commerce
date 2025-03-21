@@ -1,0 +1,39 @@
+meta {
+  name: Read Product
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/products/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: 0195b9f7-8857-77cb-a685-ef130c82e0ac
+}
+
+body:json {
+  {
+    "name": "Monster Mango Loco",
+    "description": "Monster Energy Drink sabor Mango Loco",
+    "price": 9,
+    "stock": 5,
+    "Tags": [
+      {
+         "id": "0195b9f7-8857-77cb-a685-e815ac100f87"
+      },
+      {
+        "label": "energy drinks",
+        "value": "energyDrinks"
+      }
+    ]
+  }
+}
+
+script:post-response {
+  if (res.status !== 201) return
+  bru.setEnvVar('accessToken', res.body.accessToken)
+  bru.setEnvVar('refreshToken', res.body.refreshToken)
+}

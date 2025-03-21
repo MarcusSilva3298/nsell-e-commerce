@@ -1,4 +1,12 @@
-import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { Product } from '../../../Domain/Entities/Product';
 import { ProductsFactoryDto } from '../../../Domain/Shared/Dtos/Products/ProductsFactoryDto';
 import { ProductsUseCasesEnum } from '../../../Domain/Shared/Enums/ProductsUseCasesenum';
@@ -15,11 +23,19 @@ export class ProductsController {
       Product,
       [ProductsFactoryDto]
     >,
+
+    @Inject(ProductsUseCasesEnum.READ)
+    private readonly readProductUseCase: IUseCase<Product, [string]>,
   ) {}
 
   @UseGuards(AdminOnly)
   @Post()
   create(@Body() body: ProductsFactoryDto): Promise<Product> {
     return this.createProductUseCase.execute(body);
+  }
+
+  @Get(':id')
+  read(@Param('id') id: string): Promise<Product> {
+    return this.readProductUseCase.execute(id);
   }
 }
