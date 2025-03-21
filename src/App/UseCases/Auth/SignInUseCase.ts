@@ -30,8 +30,10 @@ export class SignInUseCase implements IUseCase<ISignResponse, [SignInDto]> {
 
     const refreshToken = this.tokenService.signRefresh({ id: userExists.id });
 
-    const user = PresentersUtils.present(userExists);
-
-    return { accessToken, refreshToken, user };
+    return {
+      accessToken,
+      refreshToken,
+      user: PresentersUtils.presentUser(userExists),
+    };
   }
 }

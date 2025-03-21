@@ -35,7 +35,7 @@ export class SignUpUseCase implements IUseCase<ISignUpResponse, [SignUpDto]> {
     return {
       accessToken,
       refreshToken,
-      client: PresentersUtils.present(client),
+      client: PresentersUtils.presentClient(client),
     };
   }
 }
