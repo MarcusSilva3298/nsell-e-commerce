@@ -3,10 +3,11 @@ import { AppModule } from '../../App/app.module';
 import { DatabaseModule } from '../../Infra/Database/database.module';
 import { ServicesModule } from '../../Infra/Services/services.module';
 import { AuthController } from './Controllers/auth.controller';
+import { ClientsController } from './Controllers/clients.controller';
 import { HttpController } from './http.controller';
 
 @Module({
   imports: [AppModule, ServicesModule, DatabaseModule],
-  controllers: [HttpController, AuthController],
+  controllers: [HttpController, AuthController, ClientsController],
 })
 export class HttpModule {}
