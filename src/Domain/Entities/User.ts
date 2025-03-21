@@ -1,6 +1,8 @@
-import { Exclude, instanceToPlain } from 'class-transformer';
+import { Exclude } from 'class-transformer';
 import { UserTypeEnum } from '../Shared/Enums/UserTypeEnum';
 import { BaseEntity } from './Base';
+
+type EnumToUnion<T extends Record<string, string | number>> = `${T[keyof T]}`;
 
 export class User extends BaseEntity {
   public name: string;
@@ -8,18 +10,8 @@ export class User extends BaseEntity {
   public verifiedEmail: boolean;
 
   @Exclude()
-  public type: UserTypeEnum;
+  public type: EnumToUnion<typeof UserTypeEnum>;
 
   @Exclude()
   public readonly password: string;
-
-  public parseFromDatabase(props: any) {
-    Object.assign(this, props);
-
-    return this;
-  }
-
-  public present() {
-    return instanceToPlain(this);
-  }
 }

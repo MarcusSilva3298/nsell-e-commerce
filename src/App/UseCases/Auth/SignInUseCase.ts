@@ -2,6 +2,7 @@ import { InvalidCredentialsException } from '../../../Domain/Errors/Auth/Invalid
 import { SignInDto } from '../../../Domain/Shared/Dtos/Auth/SignInDto';
 import { ISignResponse } from '../../../Domain/Shared/Interfaces/ISignInResponse';
 import { IUseCase } from '../../../Domain/Shared/Interfaces/IUseCase';
+import { PresentersUtils } from '../../../Domain/Shared/Utils/PresentersUtils';
 import { IUserRepository } from '../../Ports/Repositories/IUsersRepository';
 import { IHashService } from '../../Ports/Services/IHashService';
 import { ITokenService } from '../../Ports/Services/ITokenService';
@@ -29,7 +30,7 @@ export class SignInUseCase implements IUseCase<ISignResponse, [SignInDto]> {
 
     const refreshToken = this.tokenService.signRefresh({ id: userExists.id });
 
-    const user = userExists.present();
+    const user = PresentersUtils.present(userExists);
 
     return { accessToken, refreshToken, user };
   }
