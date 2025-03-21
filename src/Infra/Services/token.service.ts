@@ -36,10 +36,7 @@ export class TokenService implements ITokenService {
     try {
       return sign(payload, secret, options);
     } catch (error) {
-      throw new InternalServerErrorException(
-        error,
-        'Failed to generate token!',
-      );
+      throw new InternalServerErrorException(error, 'Failed to generate token');
     }
   }
 
@@ -57,7 +54,7 @@ export class TokenService implements ITokenService {
       if (error.message === 'jwt expired')
         throw new UnauthorizedException('Invalid token');
 
-      throw new InternalServerErrorException(error, 'Faile to verify token!');
+      throw new InternalServerErrorException(error, 'Faile to verify token');
     }
   }
 
