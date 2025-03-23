@@ -3,6 +3,7 @@ import { ProductsUseCasesEnum } from '../../Domain/Shared/Enums/ProductsUseCases
 import { ProductsRepository } from '../../Infra/Database/Repositories/ProductsRepository';
 import { IProductRepository } from '../Ports/Repositories/IProductsRepository';
 import { CreateProductUseCase } from '../UseCases/Products/CreateProductUseCase';
+import { DeleteProductUseCase } from '../UseCases/Products/DeleteProductUseCase';
 import { ReadProductUseCase } from '../UseCases/Products/ReadProductUseCase';
 import { SearchProductsUseCase } from '../UseCases/Products/SearchProductsUseCase';
 import { UpdateProductUseCase } from '../UseCases/Products/UpdateProductUseCase';
@@ -33,5 +34,11 @@ export const productsProviders: Provider[] = [
     inject: [ProductsRepository],
     useFactory: (productsRepository: IProductRepository) =>
       new UpdateProductUseCase(productsRepository),
+  },
+  {
+    provide: ProductsUseCasesEnum.DELETE,
+    inject: [ProductsRepository],
+    useFactory: (productsRepository: IProductRepository) =>
+      new DeleteProductUseCase(productsRepository),
   },
 ];

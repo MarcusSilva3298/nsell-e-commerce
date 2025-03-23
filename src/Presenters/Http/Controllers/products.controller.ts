@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Param,
@@ -41,6 +42,9 @@ export class ProductsController {
       Product,
       [string, ProductsFactoryDto]
     >,
+
+    @Inject(ProductsUseCasesEnum.DELETE)
+    private readonly deleteProductUseCase: IUseCase<Product, [string]>,
   ) {}
 
   @UseGuards(AdminOnly)
@@ -66,5 +70,11 @@ export class ProductsController {
     @Body() body: ProductsFactoryDto,
   ): Promise<Product> {
     return this.updateProductsUseCase.execute(id, body);
+  }
+
+  @UseGuards(AdminOnly)
+  @Delete(':id')
+  delete(@Param('id') id: string): Promise<Product> {
+    return this.deleteProductUseCase.execute(id);
   }
 }
