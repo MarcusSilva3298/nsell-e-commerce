@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { v7 } from 'uuid';
 import { IProductRepository } from '../../../App/Ports/Repositories/IProductsRepository';
 import { Product } from '../../../Domain/Entities/Product';
+import { Tag } from '../../../Domain/Entities/Tag';
 import { ProductsFactoryDto } from '../../../Domain/Shared/Dtos/Products/ProductsFactoryDto';
 import { SearchProductsQueryDto } from '../../../Domain/Shared/Dtos/Products/SearchProductsQueryDto';
 import { TagsFactoryDto } from '../../../Domain/Shared/Dtos/Products/TagsFactoryDto';
 import { DatabaseService } from '../database.service';
 
-interface IConnectTags {
+interface IConnectDisconnectTags {
   id: string;
 }
 
@@ -21,14 +22,19 @@ interface ICreateTags {
 export class ProductsRepository implements IProductRepository {
   constructor(private readonly database: DatabaseService) {}
 
-  private createOrConnectTags(tags: TagsFactoryDto[]): {
-    connect: IConnectTags[];
+  private createConnectAndDisconnectTags(
+    newTags: TagsFactoryDto[],
+    existingTags?: Tag[],
+  ): {
+    connect: IConnectDisconnectTags[];
     create: ICreateTags[];
+    disconnect: IConnectDisconnectTags[];
   } {
-    const connect: IConnectTags[] = [];
+    const connect: IConnectDisconnectTags[] = [];
     const create: { id: string; value: string; label: string }[] = [];
+    const disconnect: IConnectDisconnectTags[] = [];
 
-    tags.forEach((item) => {
+    newTags.forEach((item) => {
       if (item.id) {
         connect.push({ id: item.id });
       } else {
@@ -40,7 +46,17 @@ export class ProductsRepository implements IProductRepository {
       }
     });
 
-    return { connect, create };
+    if (existingTags?.length) {
+      const newTagIds = new Set(newTags.map((tag) => tag.id).filter(Boolean));
+
+      existingTags.forEach((tag) => {
+        if (!newTagIds.has(tag.id)) {
+          disconnect.push({ id: tag.id });
+        }
+      });
+    }
+
+    return { connect, create, disconnect };
   }
 
   async validateTags(tags: TagsFactoryDto[]): Promise<boolean> {
@@ -61,7 +77,7 @@ export class ProductsRepository implements IProductRepository {
   }
 
   async create(body: ProductsFactoryDto): Promise<Product> {
-    const { create, connect } = this.createOrConnectTags(body.Tags);
+    const { create, connect } = this.createConnectAndDisconnectTags(body.Tags);
 
     return this.database.product.create({
       include: { Tags: true },
@@ -76,8 +92,15 @@ export class ProductsRepository implements IProductRepository {
     });
   }
 
-  async update(id: string, body: ProductsFactoryDto): Promise<Product> {
-    const { create, connect } = this.createOrConnectTags(body.Tags);
+  async update(
+    id: string,
+    body: ProductsFactoryDto,
+    existingTags: Tag[],
+  ): Promise<Product> {
+    const { create, connect, disconnect } = this.createConnectAndDisconnectTags(
+      body.Tags,
+      existingTags,
+    );
 
     return this.database.product.update({
       where: { id },
@@ -87,7 +110,7 @@ export class ProductsRepository implements IProductRepository {
         description: body.description,
         price: body.price,
         stock: body.stock,
-        Tags: { connect, create },
+        Tags: { connect, create, disconnect },
       },
     });
   }

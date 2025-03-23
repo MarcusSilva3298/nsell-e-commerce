@@ -5,6 +5,7 @@ import {
   Inject,
   Param,
   Post,
+  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -34,6 +35,12 @@ export class ProductsController {
       Product[],
       [SearchProductsQueryDto]
     >,
+
+    @Inject(ProductsUseCasesEnum.UPDATE)
+    private readonly updateProductsUseCase: IUseCase<
+      Product,
+      [string, ProductsFactoryDto]
+    >,
   ) {}
 
   @UseGuards(AdminOnly)
@@ -50,5 +57,14 @@ export class ProductsController {
   @Get()
   search(@Query() queries: SearchProductsQueryDto): Promise<Product[]> {
     return this.searchProductsUseCase.execute(queries);
+  }
+
+  @UseGuards(AdminOnly)
+  @Put(':id')
+  update(
+    @Param('id') id: string,
+    @Body() body: ProductsFactoryDto,
+  ): Promise<Product> {
+    return this.updateProductsUseCase.execute(id, body);
   }
 }
