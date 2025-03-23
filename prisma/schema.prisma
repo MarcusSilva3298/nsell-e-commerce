@@ -49,6 +49,8 @@ model Client {
   contact  String
   address  String
 
+  Orders Order[]
+
   User   User   @relation(fields: [userId], references: [id])
   userId String @unique
 
@@ -65,7 +67,8 @@ model Product {
   price       Float
   stock       Int
 
-  Tags Tag[]
+  Tags       Tag[]
+  OrderItems OrderItem[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -79,6 +82,39 @@ model Tag {
   value String
 
   Products Product[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model Order {
+  id String @id
+
+  orderTotal Float
+
+  Client   Client @relation(fields: [clientId], references: [id])
+  clientId String
+
+  OrderItems OrderItem[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model OrderItem {
+  id String @id
+
+  quantity     Int
+  pricePerUnit Float
+  totalPrice   Float
+
+  Order   Order  @relation(fields: [orderId], references: [id])
+  orderId String
+
+  Product   Product @relation(fields: [productId], references: [id])
+  productId String
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
