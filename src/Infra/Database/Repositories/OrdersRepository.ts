@@ -1,13 +1,59 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  OnModuleInit,
+} from '@nestjs/common';
 import { v7 } from 'uuid';
+import { IOrdersRepository } from '../../../App/Ports/Repositories/IOrdersRepository';
 import { Order } from '../../../Domain/Entities/Order';
+import { OrderStatus } from '../../../Domain/Entities/OrderStatus';
 import { OrderItemPersistanceDto } from '../../../Domain/Shared/Dtos/Orders/OrderItemPersistanceDto';
 import { SearchOrdersQueryDto } from '../../../Domain/Shared/Dtos/Orders/SearchOrdersQueryDto';
+import { OrderStatusValuesEnum } from '../../../Domain/Shared/Enums/OrderStatusValuesEnum';
 import { DatabaseService } from '../database.service';
 
 @Injectable()
-export class OrdersRepository {
+export class OrdersRepository implements OnModuleInit, IOrdersRepository {
+  private statusMap = new Map<OrderStatusValuesEnum, OrderStatus>();
+
   constructor(private readonly database: DatabaseService) {}
+
+  async onModuleInit() {
+    const statuses = await this.database.orderStatus.findMany();
+
+    statuses.forEach((status) => {
+      const label = this.toOrderStatusValuesEnum(status.value);
+      this.statusMap.set(label, status);
+    });
+  }
+
+  private toOrderStatusValuesEnum(value: string): OrderStatusValuesEnum {
+    const enumValue = Object.values(OrderStatusValuesEnum).find(
+      (enumValue) => enumValue === (value as OrderStatusValuesEnum),
+    );
+
+    if (!enumValue) {
+      Logger.error('Invalid order status string to enum value covnersion');
+      Logger.fatal('Terminating the server');
+      process.exit(1);
+    }
+
+    return enumValue;
+  }
+
+  findStatus(value: OrderStatusValuesEnum): OrderStatus {
+    const status = this.statusMap.get(value);
+
+    if (!status)
+      throw new InternalServerErrorException('Order Status not found');
+
+    return status;
+  }
+
+  listStatus(): OrderStatus[] {
+    return Array.from(this.statusMap.values());
+  }
 
   async create(
     clientId: string,

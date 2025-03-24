@@ -1,4 +1,5 @@
 import { PrismaClient, UserTypeEnum } from '@prisma/client';
+import { orderStatusSeed } from './seed-auxiliares/orderStatusSeed';
 
 const prisma = new PrismaClient();
 
@@ -28,6 +29,26 @@ async function seed() {
       },
     },
   });
+
+  const orderStatusOperation = orderStatusSeed.map((seed) => {
+    return prisma.orderStatus.upsert({
+      where: { id: seed.id },
+      update: {
+        id: seed.id,
+        color: seed.color,
+        label: seed.label,
+        value: seed.value,
+      },
+      create: {
+        id: seed.id,
+        color: seed.color,
+        label: seed.label,
+        value: seed.value,
+      },
+    });
+  });
+
+  await prisma.$transaction(orderStatusOperation);
 }
 
 seed()

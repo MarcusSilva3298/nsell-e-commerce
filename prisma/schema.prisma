@@ -96,6 +96,9 @@ model Order {
   Client   Client @relation(fields: [clientId], references: [id])
   clientId String
 
+  OrderStatus      OrderStatus? @relation(fields: [orderStatusValue], references: [value])
+  orderStatusValue String       @default("AWAITING_PAYMENT")
+
   OrderItems OrderItem[]
 
   createdAt DateTime  @default(now())
@@ -115,6 +118,20 @@ model OrderItem {
 
   Product   Product @relation(fields: [productId], references: [id])
   productId String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model OrderStatus {
+  id String @id
+
+  label String
+  value String @unique
+  color String
+
+  Orders Order[]
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
