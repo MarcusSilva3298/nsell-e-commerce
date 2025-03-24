@@ -66,8 +66,6 @@ export class ClientsRepository implements IClientsRepository {
   }
 
   async search(filters: SearchClientsQueryDto): Promise<Client[]> {
-    console.log(filters);
-
     return await this.database.client.findMany({
       include: { User: true },
       where: {
