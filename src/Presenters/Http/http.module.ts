@@ -4,6 +4,7 @@ import { DatabaseModule } from '../../Infra/Database/database.module';
 import { ServicesModule } from '../../Infra/Services/services.module';
 import { AuthController } from './Controllers/auth.controller';
 import { ClientsController } from './Controllers/clients.controller';
+import { OrdersController } from './Controllers/orders.controller';
 import { ProductsController } from './Controllers/products.controller';
 import { HttpController } from './http.controller';
 
@@ -14,6 +15,7 @@ import { HttpController } from './http.controller';
     AuthController,
     ClientsController,
     ProductsController,
+    OrdersController,
   ],
 })
 export class HttpModule {}

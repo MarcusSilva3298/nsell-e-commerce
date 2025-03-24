@@ -7,13 +7,27 @@ import {
   clientsProviders,
 } from './Providers/ClientsUseCasesProviders';
 import {
+  ordersExports,
+  ordersProviders,
+} from './Providers/OrdersUseCasesProviders';
+import {
   productsExports,
   productsProviders,
 } from './Providers/ProductsUseCasesProviders';
 
 @Module({
   imports: [ServicesModule, DatabaseModule],
-  providers: [...authProviders, ...clientsProviders, ...productsProviders],
-  exports: [...authExports, ...clientsExports, ...productsExports],
+  providers: [
+    ...authProviders,
+    ...clientsProviders,
+    ...productsProviders,
+    ...ordersProviders,
+  ],
+  exports: [
+    ...authExports,
+    ...clientsExports,
+    ...productsExports,
+    ...ordersExports,
+  ],
 })
 export class AppModule {}
