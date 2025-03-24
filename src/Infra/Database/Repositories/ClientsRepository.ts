@@ -13,6 +13,7 @@ export class ClientsRepository implements IClientsRepository {
 
   async create(data: SignUpDto): Promise<Client> {
     return await this.database.client.create({
+      include: { User: true },
       data: {
         id: v7(),
         address: data.address,
@@ -27,27 +28,19 @@ export class ClientsRepository implements IClientsRepository {
           },
         },
       },
-      include: { User: true },
     });
   }
 
   async update(id: string, data: UpdateClientDto): Promise<Client> {
     return await this.database.client.update({
       where: { id },
+      include: { User: true },
       data: {
         address: data.address,
         fullname: data.fullname,
         contact: data.contact,
         User: { update: { name: data.name } },
       },
-      include: { User: true },
-    });
-  }
-
-  async findByUserId(userId: string): Promise<Client | null> {
-    return await this.database.client.findUnique({
-      include: { User: true },
-      where: { userId, deletedAt: null },
     });
   }
 
@@ -59,16 +52,16 @@ export class ClientsRepository implements IClientsRepository {
   }
 
   async delete(client: Client): Promise<Client> {
-    const email = client.User.email.concat(new Date().toISOString());
+    const email = client.User!.email.concat(new Date().toISOString());
     const now = new Date();
 
     return await this.database.client.update({
       where: { id: client.id },
+      include: { User: true },
       data: {
         deletedAt: now,
         User: { update: { email, deletedAt: now } },
       },
-      include: { User: true },
     });
   }
 

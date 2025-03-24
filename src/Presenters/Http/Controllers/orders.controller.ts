@@ -25,7 +25,7 @@ export class OrdersController {
     @Inject(OrdersUseCasesEnum.CREATE)
     private readonly createOrderUseCase: IUseCase<
       Order,
-      [string, CreateOrderItemDto]
+      [User, CreateOrderItemDto]
     >,
 
     @Inject(OrdersUseCasesEnum.READ)
@@ -46,7 +46,7 @@ export class OrdersController {
     @GetUser() user: User,
     @Body() body: CreateOrderItemDto,
   ): Promise<Order> {
-    return this.createOrderUseCase.execute(user.id, body);
+    return this.createOrderUseCase.execute(user, body);
   }
 
   @Get(':id')

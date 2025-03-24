@@ -9,6 +9,7 @@ export class UsersRepository implements IUserRepository {
 
   async findById(id: string): Promise<User | null> {
     return await this.database.user.findUnique({
+      include: { Client: true },
       where: { id, deletedAt: null },
     });
   }

@@ -6,7 +6,6 @@ import { UpdateClientDto } from '../../../Domain/Shared/Dtos/Clients/UpdateClien
 export interface IClientsRepository {
   create(data: SignUpDto): Promise<Client>;
   update(id: string, data: UpdateClientDto): Promise<Client>;
-  findByUserId(userId: string): Promise<Client | null>;
   findById(id: string): Promise<Client | null>;
   delete(client: Client): Promise<Client>;
   search(filters: SearchClientsQueryDto): Promise<Client[]>;

@@ -11,6 +11,6 @@ export class Client extends BaseEntity {
   public Orders?: Order[];
 
   @Type(() => User)
-  public readonly User: User;
+  public readonly User?: User;
   public readonly userId: string;
 }
