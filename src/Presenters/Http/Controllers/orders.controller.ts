@@ -34,7 +34,7 @@ export class OrdersController {
     @Inject(OrdersUseCasesEnum.SEARCH)
     private readonly searchOrdersUseCase: IUseCase<
       Order[],
-      [SearchOrdersQueryDto]
+      [User, SearchOrdersQueryDto]
     >,
 
     @Inject(OrdersUseCasesEnum.DELETE)
@@ -55,8 +55,11 @@ export class OrdersController {
   }
 
   @Get()
-  search(@Query() queries: SearchOrdersQueryDto): Promise<Order[]> {
-    return this.searchOrdersUseCase.execute(queries);
+  search(
+    @GetUser() user: User,
+    @Query() queries: SearchOrdersQueryDto,
+  ): Promise<Order[]> {
+    return this.searchOrdersUseCase.execute(user, queries);
   }
 
   @Delete(':id')

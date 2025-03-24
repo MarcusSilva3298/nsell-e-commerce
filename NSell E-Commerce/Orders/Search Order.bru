@@ -1,0 +1,21 @@
+meta {
+  name: Search Order
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/orders
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ~productName: 
+}
+
+script:post-response {
+  if (res.status !== 201) return
+  bru.setEnvVar('accessToken', res.body.accessToken)
+  bru.setEnvVar('refreshToken', res.body.refreshToken)
+}

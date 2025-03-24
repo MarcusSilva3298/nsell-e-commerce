@@ -54,7 +54,7 @@ export class OrdersRepository {
   ): Promise<Order[]> {
     return await this.database.order.findMany({
       where: {
-        clientId,
+        clientId: clientId || undefined,
         deletedAt: null,
         OrderItems: {
           some: {
