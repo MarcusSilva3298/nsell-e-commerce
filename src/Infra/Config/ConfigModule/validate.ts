@@ -19,7 +19,7 @@ export async function validateEnvVariables(
         Logger.error(error.constraints[constraint], 'ENV VARIABLES ERROR');
       }
     });
-    Logger.fatal('Fechando servidor');
+    Logger.fatal('Terminating the server');
     process.exit(1);
   }
 
