@@ -1,0 +1,24 @@
+meta {
+  name: Sign In
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/auth/signIn
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "rdurnell1@opensource.org",
+    "password": "123456"
+  }
+}
+
+script:post-response {
+  if (res.status !== 201) return
+  bru.setEnvVar('accessToken', res.body.accessToken)
+  bru.setEnvVar('refreshToken', res.body.refreshToken)
+}

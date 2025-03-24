@@ -60,7 +60,7 @@ export class TokenService implements ITokenService {
 
   signAccess(payload: IPayload): string {
     return this.sign(payload, this.accessSecret, {
-      expiresIn: this.accessExpiresIn,
+      expiresIn: `${this.accessExpiresIn}d`,
     });
   }
 
@@ -70,7 +70,7 @@ export class TokenService implements ITokenService {
 
   signRefresh(payload: IPayload): string {
     return this.sign(payload, this.refreshSecret, {
-      expiresIn: this.refreshExpiresIn,
+      expiresIn: `${this.refreshExpiresIn}d`,
     });
   }
 
