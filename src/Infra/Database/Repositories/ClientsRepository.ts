@@ -44,6 +44,13 @@ export class ClientsRepository implements IClientsRepository {
     });
   }
 
+  async findByUserId(userId: string): Promise<Client | null> {
+    return await this.database.client.findUnique({
+      include: { User: true },
+      where: { userId, deletedAt: null },
+    });
+  }
+
   async findById(id: string): Promise<Client | null> {
     return await this.database.client.findUnique({
       where: { id, deletedAt: null },
