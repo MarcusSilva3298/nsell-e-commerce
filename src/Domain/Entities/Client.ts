@@ -8,8 +8,7 @@ export class Client extends BaseEntity {
   public contact: string;
   public address: string;
 
-  @Type(() => Order)
-  public Orders: Order[];
+  public Orders?: Order[];
 
   @Type(() => User)
   public readonly User: User;

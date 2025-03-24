@@ -1,0 +1,24 @@
+meta {
+  name: Create Order
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/orders
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "productId": "0195b9f7-8857-77cb-a685-ef130c82e0ac",
+    "quantity": 5
+  }
+}
+
+script:post-response {
+  if (res.status !== 201) return
+  bru.setEnvVar('accessToken', res.body.accessToken)
+  bru.setEnvVar('refreshToken', res.body.refreshToken)
+}

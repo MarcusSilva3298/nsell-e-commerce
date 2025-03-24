@@ -14,6 +14,7 @@ export class OrdersRepository {
     orderItem?: OrderItemPersistanceDto,
   ): Promise<Order> {
     return await this.database.order.create({
+      include: { OrderItems: true },
       data: {
         id: v7(),
         clientId,
