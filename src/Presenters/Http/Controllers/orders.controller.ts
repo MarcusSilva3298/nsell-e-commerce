@@ -38,7 +38,7 @@ export class OrdersController {
     >,
 
     @Inject(OrdersUseCasesEnum.DELETE)
-    private readonly deleteOrderUseCase: IUseCase<Order, [string]>,
+    private readonly deleteOrderUseCase: IUseCase<Order, [string, User]>,
   ) {}
 
   @Post()
@@ -63,7 +63,7 @@ export class OrdersController {
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string): Promise<Order> {
-    return this.deleteOrderUseCase.execute(id);
+  delete(@Param('id') id: string, @GetUser() user: User): Promise<Order> {
+    return this.deleteOrderUseCase.execute(id, user);
   }
 }
