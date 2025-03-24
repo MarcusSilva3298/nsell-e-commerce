@@ -15,6 +15,17 @@ async function seed() {
       password: '$2b$06$5oUqtLcaN6Sx/B/PMAvFmuudTowllwkE.gAuFyFMCitbuPMQ4rWZe',
       type: UserTypeEnum.ADMIN,
       verifiedEmail: true,
+      Client: {
+        connectOrCreate: {
+          where: { id: '0195c5dc-06b1-7c24-bdfb-78f37970011d' },
+          create: {
+            id: '0195c5dc-06b1-7c24-bdfb-78f37970011d',
+            address: 'Av. admin',
+            contact: adminEmail,
+            fullname: 'Admin Admin',
+          },
+        },
+      },
     },
   });
 }
