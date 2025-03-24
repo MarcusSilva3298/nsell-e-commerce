@@ -5,6 +5,7 @@ import { ProductsRepository } from '../../Infra/Database/Repositories/ProductsRe
 import { IOrdersRepository } from '../Ports/Repositories/IOrdersRepository';
 import { IProductRepository } from '../Ports/Repositories/IProductsRepository';
 import { CreateOrderUseCase } from '../UseCases/Orders/CreateOrderUseCase';
+import { ReadOrderUseCase } from '../UseCases/Orders/ReadOrderUseCase';
 
 export const ordersExports: string[] = Object.values(OrdersUseCasesEnum);
 
@@ -19,8 +20,9 @@ export const ordersProviders: Provider[] = [
   },
   {
     provide: OrdersUseCasesEnum.READ,
-    inject: [],
-    useFactory: () => null,
+    inject: [OrdersRepository],
+    useFactory: (ordersRepository: IOrdersRepository) =>
+      new ReadOrderUseCase(ordersRepository),
   },
   {
     provide: OrdersUseCasesEnum.SEARCH,

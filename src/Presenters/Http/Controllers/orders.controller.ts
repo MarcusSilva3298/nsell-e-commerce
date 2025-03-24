@@ -29,7 +29,7 @@ export class OrdersController {
     >,
 
     @Inject(OrdersUseCasesEnum.READ)
-    private readonly readOrderUseCase: IUseCase<Order, [string]>,
+    private readonly readOrderUseCase: IUseCase<Order, [string, User]>,
 
     @Inject(OrdersUseCasesEnum.SEARCH)
     private readonly searchOrdersUseCase: IUseCase<
@@ -50,8 +50,8 @@ export class OrdersController {
   }
 
   @Get(':id')
-  read(@Param('id') id: string): Promise<Order> {
-    return this.readOrderUseCase.execute(id);
+  read(@Param('id') id: string, @GetUser() user: User): Promise<Order> {
+    return this.readOrderUseCase.execute(id, user);
   }
 
   @Get()
