@@ -1,6 +1,6 @@
 export enum OrdersUseCasesEnum {
-  CREATE = 'CREATE',
-  SEARCH = 'SEARCH',
-  READ = 'READ',
-  DELETE = 'DELETE',
+  CREATE = 'CREATE_ORDER',
+  SEARCH = 'SEARCH_ORDER',
+  READ = 'READ_ORDER',
+  DELETE = 'DELETE_ORDER',
 }

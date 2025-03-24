@@ -1,0 +1,7 @@
+export enum ProductsUseCasesEnum {
+  CREATE = 'CREATE_PRODUCT',
+  SEARCH = 'SEARCH_PRODUCTS',
+  READ = 'READ_PRODUCT',
+  UPDATE = 'UPDATE_PRODUCT',
+  DELETE = 'DELETE_PRODUCT',
+}

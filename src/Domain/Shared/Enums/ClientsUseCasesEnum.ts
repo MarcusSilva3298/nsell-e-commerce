@@ -1,6 +1,6 @@
 export enum ClientsUseCasesEnum {
-  SEARCH = 'SEARCH',
-  READ = 'READ',
-  UPDATE = 'UPDATE',
-  DELETE = 'DELETE',
+  SEARCH = 'SEARCH_CLIENTS',
+  READ = 'READ_CLIENT',
+  UPDATE = 'UPDATE_CLIENT',
+  DELETE = 'DELETE_CLIENT',
 }
