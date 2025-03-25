@@ -1,6 +1,6 @@
 import { Order } from '../../../Domain/Entities/Order';
 import { User } from '../../../Domain/Entities/User';
-import { OrderAlreadyConfirmedException } from '../../../Domain/Errors/Orders/OrderAlreadyConfirmedException';
+import { OrderAlreadyPaidException } from '../../../Domain/Errors/Orders/OrderAlreadyPaidException';
 import { OrderNotFoundException } from '../../../Domain/Errors/Orders/OrderNotFoundException';
 import { OrderStatusValuesEnum } from '../../../Domain/Shared/Enums/OrderStatusValuesEnum';
 import { IUseCase } from '../../../Domain/Shared/Interfaces/IUseCase';
@@ -20,7 +20,7 @@ export class CleanOrderUseCase implements IUseCase<Order, [string, User]> {
       orderExists.orderStatusValue !==
       (OrderStatusValuesEnum.AWAITING_PAYMENT as string)
     )
-      throw new OrderAlreadyConfirmedException();
+      throw new OrderAlreadyPaidException();
 
     return await this.ordersRepository.cleanOrder(id);
   }

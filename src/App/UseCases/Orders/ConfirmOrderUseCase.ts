@@ -1,5 +1,5 @@
-import { ConflictException } from '@nestjs/common';
 import { User } from '@prisma/client';
+import { OrderAlreadyPaidException } from '../../../Domain/Errors/Orders/OrderAlreadyPaidException';
 import { OrderNotFoundException } from '../../../Domain/Errors/Orders/OrderNotFoundException';
 import { UnsuccesfulPaymentException } from '../../../Domain/Errors/Orders/UnsuccessfulPaymentException';
 import { NotEnoughInStock } from '../../../Domain/Errors/Products/NotEnoughInStockException';
@@ -27,9 +27,7 @@ export class ConfirmOrderUseCase {
       orderExists.orderStatusValue !==
       (OrderStatusValuesEnum.AWAITING_PAYMENT as string)
     )
-      throw new ConflictException(
-        'Order already paid! Not possible to make payment again',
-      );
+      throw new OrderAlreadyPaidException();
 
     const allItemsInStock = await this.productsRepository.validateStock(
       orderExists.OrderItems!,

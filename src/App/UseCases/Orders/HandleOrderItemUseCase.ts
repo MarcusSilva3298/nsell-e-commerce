@@ -1,6 +1,6 @@
 import { Order } from '../../../Domain/Entities/Order';
 import { User } from '../../../Domain/Entities/User';
-import { OrderAlreadyConfirmedException } from '../../../Domain/Errors/Orders/OrderAlreadyConfirmedException';
+import { OrderAlreadyPaidException } from '../../../Domain/Errors/Orders/OrderAlreadyPaidException';
 import { OrderNotFoundException } from '../../../Domain/Errors/Orders/OrderNotFoundException';
 import { NotEnoughInStock } from '../../../Domain/Errors/Products/NotEnoughInStockException';
 import { ProductNotFoundException } from '../../../Domain/Errors/Products/ProductNotFoundException';
@@ -32,7 +32,7 @@ export class HandleOrderItemUseCase
       orderExists.orderStatusValue !==
       (OrderStatusValuesEnum.AWAITING_PAYMENT as string)
     )
-      throw new OrderAlreadyConfirmedException();
+      throw new OrderAlreadyPaidException();
 
     const productExists = await this.productsRepository.findById(
       body.productId,
