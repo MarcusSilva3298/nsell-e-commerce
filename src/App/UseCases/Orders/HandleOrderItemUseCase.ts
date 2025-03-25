@@ -1,5 +1,4 @@
 import { ConflictException } from '@nestjs/common';
-import { UserTypeEnum } from '@prisma/client';
 import { Order } from '../../../Domain/Entities/Order';
 import { User } from '../../../Domain/Entities/User';
 import { OrderNotFoundException } from '../../../Domain/Errors/Orders/OrderNotFoundException';
@@ -9,6 +8,7 @@ import { HandleOrderItemDto } from '../../../Domain/Shared/Dtos/Orders/HandleOrd
 import { HandleOrderItemPersistanceDto } from '../../../Domain/Shared/Dtos/Orders/HandleOrderItemPersistanceDto';
 import { OrderStatusValuesEnum } from '../../../Domain/Shared/Enums/OrderStatusValuesEnum';
 import { IUseCase } from '../../../Domain/Shared/Interfaces/IUseCase';
+import { UserUtils } from '../../../Domain/Shared/Utils/UserUtils';
 import { IOrdersRepository } from '../../Ports/Repositories/IOrdersRepository';
 import { IProductRepository } from '../../Ports/Repositories/IProductsRepository';
 
@@ -24,11 +24,7 @@ export class HandleOrderItemUseCase
     const orderExists = await this.ordersRepository.findById(body.orderId);
 
     // Verify if Order exists and if user is owner or is admin
-    if (
-      !orderExists ||
-      (orderExists.clientId !== user.Client!.id &&
-        user.type !== UserTypeEnum.ADMIN)
-    )
+    if (!orderExists || UserUtils.isOwnerOrAdmin(orderExists.clientId, user))
       throw new OrderNotFoundException();
 
     // Verify if Order is confirmed already
