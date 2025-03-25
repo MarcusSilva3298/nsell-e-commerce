@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { v7 } from 'uuid';
 import { IProductRepository } from '../../../App/Ports/Repositories/IProductsRepository';
+import { OrderItem } from '../../../Domain/Entities/OrderItem';
 import { Product } from '../../../Domain/Entities/Product';
 import { Tag } from '../../../Domain/Entities/Tag';
 import { ProductsFactoryDto } from '../../../Domain/Shared/Dtos/Products/ProductsFactoryDto';
@@ -113,6 +114,18 @@ export class ProductsRepository implements IProductRepository {
         Tags: { connect, create, disconnect },
       },
     });
+  }
+
+  async validateStock(items: OrderItem[]): Promise<boolean> {
+    const operations = items.map((item) =>
+      this.database.product.findUnique({
+        where: { id: item.productId, stock: { gte: item.quantity } },
+      }),
+    );
+
+    const results = await this.database.$transaction(operations);
+
+    return results.every((result) => result !== null);
   }
 
   async delete(id: string): Promise<Product> {

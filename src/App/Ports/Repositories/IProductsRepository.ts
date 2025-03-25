@@ -1,3 +1,4 @@
+import { OrderItem } from '../../../Domain/Entities/OrderItem';
 import { Product } from '../../../Domain/Entities/Product';
 import { Tag } from '../../../Domain/Entities/Tag';
 import { ProductsFactoryDto } from '../../../Domain/Shared/Dtos/Products/ProductsFactoryDto';
@@ -12,6 +13,7 @@ export interface IProductRepository {
     body: ProductsFactoryDto,
     existingTags: Tag[],
   ): Promise<Product>;
+  validateStock(items: OrderItem[]): Promise<boolean>;
   delete(id: string): Promise<Product>;
   findById(id: string): Promise<Product | null>;
   search(filters: SearchProductsQueryDto): Promise<Product[]>;

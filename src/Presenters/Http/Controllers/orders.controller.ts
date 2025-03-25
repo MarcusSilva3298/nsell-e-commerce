@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { Order } from '../../../Domain/Entities/Order';
 import { User } from '../../../Domain/Entities/User';
+import { ConfirmOrderDto } from '../../../Domain/Shared/Dtos/Orders/ConfirmOrderDto';
 import { CreateOrderItemDto } from '../../../Domain/Shared/Dtos/Orders/CreateOrderItemDto';
 import { HandleOrderItemDto } from '../../../Domain/Shared/Dtos/Orders/HandleOrderItemDto';
 import { SearchOrdersQueryDto } from '../../../Domain/Shared/Dtos/Orders/SearchOrdersQueryDto';
@@ -56,6 +57,12 @@ export class OrdersController {
     private readonly updateOrderStatusUseCase: IUseCase<
       Order,
       [string, UpdateOrderStatusDto, User]
+    >,
+
+    @Inject(OrdersUseCasesEnum.CONFIRM)
+    private readonly confirmOrderUseCase: IUseCase<
+      Order,
+      [string, User, ConfirmOrderDto]
     >,
   ) {}
 
@@ -105,5 +112,14 @@ export class OrdersController {
     @GetUser() user: User,
   ): Promise<Order> {
     return this.updateOrderStatusUseCase.execute(id, body, user);
+  }
+
+  @Patch('confirm/:id')
+  confirmOrder(
+    @Param('id') id: string,
+    @GetUser() user: User,
+    @Body() body: ConfirmOrderDto,
+  ): Promise<Order> {
+    return this.confirmOrderUseCase.execute(id, user, body);
   }
 }

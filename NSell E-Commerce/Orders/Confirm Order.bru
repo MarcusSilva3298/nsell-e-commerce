@@ -1,0 +1,23 @@
+meta {
+  name: Confirm Order
+  type: http
+  seq: 8
+}
+
+patch {
+  url: {{baseUrl}}/orders/confirm/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: 0195caf7-82a9-779d-a5a9-ee6f858ef8e8
+}
+
+body:json {
+  // Successful card tokens: https://docs.stripe.com/testing?testing-method=payment-methods#cards
+  // Unsuccessful card tokens: https://docs.stripe.com/testing?testing-method=payment-methods#declined-payments
+  {
+    "cardToken": "pm_card_visa"
+  }
+}
