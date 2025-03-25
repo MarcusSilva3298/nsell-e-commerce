@@ -8,6 +8,7 @@ import { v7 } from 'uuid';
 import { IOrdersRepository } from '../../../App/Ports/Repositories/IOrdersRepository';
 import { Order } from '../../../Domain/Entities/Order';
 import { OrderStatus } from '../../../Domain/Entities/OrderStatus';
+import { HandleOrderItemPersistanceDto } from '../../../Domain/Shared/Dtos/Orders/HandleOrderItemPersistanceDto';
 import { OrderItemPersistanceDto } from '../../../Domain/Shared/Dtos/Orders/OrderItemPersistanceDto';
 import { SearchOrdersQueryDto } from '../../../Domain/Shared/Dtos/Orders/SearchOrdersQueryDto';
 import { OrderStatusValuesEnum } from '../../../Domain/Shared/Enums/OrderStatusValuesEnum';
@@ -76,6 +77,21 @@ export class OrdersRepository implements OnModuleInit, IOrdersRepository {
               },
             }
           : {},
+      },
+    });
+  }
+
+  async handleOrderItem(dto: HandleOrderItemPersistanceDto): Promise<Order> {
+    return await this.database.order.update({
+      include: { OrderItems: true },
+      where: { id: dto.orderId },
+      data: {
+        orderTotal: dto.orderTotal,
+        OrderItems: {
+          create: dto.createItemDto || undefined,
+          update: dto.updateItemDto || undefined,
+          delete: dto.deleteItemDto || undefined,
+        },
       },
     });
   }

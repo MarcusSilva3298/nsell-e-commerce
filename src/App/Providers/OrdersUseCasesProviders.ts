@@ -6,6 +6,7 @@ import { IOrdersRepository } from '../Ports/Repositories/IOrdersRepository';
 import { IProductRepository } from '../Ports/Repositories/IProductsRepository';
 import { CreateOrderUseCase } from '../UseCases/Orders/CreateOrderUseCase';
 import { DeleteOderUseCase } from '../UseCases/Orders/DeleteOrderUseCase';
+import { HandleOrderItemUseCase } from '../UseCases/Orders/HandleOrderItemUseCase';
 import { ReadOrderUseCase } from '../UseCases/Orders/ReadOrderUseCase';
 import { SearchOrdersUseCase } from '../UseCases/Orders/SearchOrdersUseCase';
 
@@ -37,5 +38,13 @@ export const ordersProviders: Provider[] = [
     inject: [OrdersRepository],
     useFactory: (ordersRepository: IOrdersRepository) =>
       new DeleteOderUseCase(ordersRepository),
+  },
+  {
+    provide: OrdersUseCasesEnum.HANDLE_ITEM,
+    inject: [OrdersRepository, ProductsRepository],
+    useFactory: (
+      ordersRepository: IOrdersRepository,
+      productsRepository: IProductRepository,
+    ) => new HandleOrderItemUseCase(ordersRepository, productsRepository),
   },
 ];

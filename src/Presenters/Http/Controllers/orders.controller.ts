@@ -12,6 +12,7 @@ import {
 import { Order } from '../../../Domain/Entities/Order';
 import { User } from '../../../Domain/Entities/User';
 import { CreateOrderItemDto } from '../../../Domain/Shared/Dtos/Orders/CreateOrderItemDto';
+import { HandleOrderItemDto } from '../../../Domain/Shared/Dtos/Orders/HandleOrderItemDto';
 import { SearchOrdersQueryDto } from '../../../Domain/Shared/Dtos/Orders/SearchOrdersQueryDto';
 import { OrdersUseCasesEnum } from '../../../Domain/Shared/Enums/OrdersUseCasesEnum';
 import { IUseCase } from '../../../Domain/Shared/Interfaces/IUseCase';
@@ -39,6 +40,12 @@ export class OrdersController {
 
     @Inject(OrdersUseCasesEnum.DELETE)
     private readonly deleteOrderUseCase: IUseCase<Order, [string, User]>,
+
+    @Inject(OrdersUseCasesEnum.HANDLE_ITEM)
+    private readonly handleItemUseCase: IUseCase<
+      Order,
+      [User, HandleOrderItemDto]
+    >,
   ) {}
 
   @Post()
@@ -65,5 +72,13 @@ export class OrdersController {
   @Delete(':id')
   delete(@Param('id') id: string, @GetUser() user: User): Promise<Order> {
     return this.deleteOrderUseCase.execute(id, user);
+  }
+
+  @Post('product')
+  handleItem(
+    @GetUser() user: User,
+    @Body() body: HandleOrderItemDto,
+  ): Promise<Order> {
+    return this.handleItemUseCase.execute(user, body);
   }
 }
