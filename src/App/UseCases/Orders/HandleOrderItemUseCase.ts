@@ -24,7 +24,7 @@ export class HandleOrderItemUseCase
     const orderExists = await this.ordersRepository.findById(body.orderId);
 
     // Verify if Order exists and if user is owner or is admin
-    if (!orderExists || UserUtils.isOwnerOrAdmin(orderExists.clientId, user))
+    if (!orderExists || UserUtils.isNotOwnerOrAdmin(orderExists.clientId, user))
       throw new OrderNotFoundException();
 
     // Verify if Order is confirmed already

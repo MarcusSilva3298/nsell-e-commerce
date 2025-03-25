@@ -11,7 +11,7 @@ export class ReadOrderUseCase implements IUseCase<Order, [string, User]> {
   async execute(id: string, user: User): Promise<Order> {
     const orderExists = await this.ordersRepository.findById(id);
 
-    if (!orderExists || UserUtils.isOwnerOrAdmin(orderExists.clientId, user))
+    if (!orderExists || UserUtils.isNotOwnerOrAdmin(orderExists.clientId, user))
       throw new OrderNotFoundException();
 
     return orderExists;
