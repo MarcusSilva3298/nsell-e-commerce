@@ -5,6 +5,7 @@ import {
   Get,
   Inject,
   Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -46,6 +47,9 @@ export class OrdersController {
       Order,
       [User, HandleOrderItemDto]
     >,
+
+    @Inject(OrdersUseCasesEnum.CLEAN)
+    private readonly cleanOrderUseCase: IUseCase<Order, [string, User]>,
   ) {}
 
   @Post()
@@ -80,5 +84,10 @@ export class OrdersController {
     @Body() body: HandleOrderItemDto,
   ): Promise<Order> {
     return this.handleItemUseCase.execute(user, body);
+  }
+
+  @Patch('clean/:id')
+  cleaOrder(@Param('id') id: string, @GetUser() user: User): Promise<Order> {
+    return this.cleanOrderUseCase.execute(id, user);
   }
 }

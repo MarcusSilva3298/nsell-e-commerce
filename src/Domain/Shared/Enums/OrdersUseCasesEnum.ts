@@ -3,5 +3,6 @@ export enum OrdersUseCasesEnum {
   SEARCH = 'SEARCH_ORDER',
   READ = 'READ_ORDER',
   HANDLE_ITEM = 'HANDLE_ORDER_ITEM',
+  CLEAN = 'CLEAN_ORDER',
   DELETE = 'DELETE_ORDER',
 }

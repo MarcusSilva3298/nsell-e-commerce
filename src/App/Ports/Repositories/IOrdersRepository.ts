@@ -10,6 +10,7 @@ export interface IOrdersRepository {
   listStatus(): OrderStatus[];
   create(clientId: string, orderItem?: OrderItemPersistanceDto): Promise<Order>;
   handleOrderItem(dto: HandleOrderItemPersistanceDto): Promise<Order>;
+  cleanOrder(id: string): Promise<Order>;
   findById(id: string): Promise<Order | null>;
   delete(id: string): Promise<Order>;
   search(query: SearchOrdersQueryDto, clientId?: string): Promise<Order[]>;
