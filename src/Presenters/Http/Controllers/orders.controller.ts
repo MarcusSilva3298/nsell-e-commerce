@@ -15,6 +15,7 @@ import { User } from '../../../Domain/Entities/User';
 import { CreateOrderItemDto } from '../../../Domain/Shared/Dtos/Orders/CreateOrderItemDto';
 import { HandleOrderItemDto } from '../../../Domain/Shared/Dtos/Orders/HandleOrderItemDto';
 import { SearchOrdersQueryDto } from '../../../Domain/Shared/Dtos/Orders/SearchOrdersQueryDto';
+import { UpdateOrderStatusDto } from '../../../Domain/Shared/Dtos/Orders/UpdateOrderStatusDto';
 import { OrdersUseCasesEnum } from '../../../Domain/Shared/Enums/OrdersUseCasesEnum';
 import { IUseCase } from '../../../Domain/Shared/Interfaces/IUseCase';
 import { GetUser } from '../Decorators/get-user.decorator';
@@ -50,6 +51,12 @@ export class OrdersController {
 
     @Inject(OrdersUseCasesEnum.CLEAN)
     private readonly cleanOrderUseCase: IUseCase<Order, [string, User]>,
+
+    @Inject(OrdersUseCasesEnum.UPDATE_STATUS)
+    private readonly updateOrderStatusUseCase: IUseCase<
+      Order,
+      [string, UpdateOrderStatusDto, User]
+    >,
   ) {}
 
   @Post()
@@ -89,5 +96,14 @@ export class OrdersController {
   @Patch('clean/:id')
   cleaOrder(@Param('id') id: string, @GetUser() user: User): Promise<Order> {
     return this.cleanOrderUseCase.execute(id, user);
+  }
+
+  @Patch('status/:id')
+  updateOrderStatus(
+    @Param('id') id: string,
+    @Body() body: UpdateOrderStatusDto,
+    @GetUser() user: User,
+  ): Promise<Order> {
+    return this.updateOrderStatusUseCase.execute(id, body, user);
   }
 }

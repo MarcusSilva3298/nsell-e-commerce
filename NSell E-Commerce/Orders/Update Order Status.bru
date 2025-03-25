@@ -1,0 +1,21 @@
+meta {
+  name: Update Order Status
+  type: http
+  seq: 7
+}
+
+patch {
+  url: {{baseUrl}}/orders/status/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: 0195caf7-82a9-779d-a5a9-ee6f858ef8e8
+}
+
+body:json {
+  {
+    "status": "AWAITING_CONFIRMATION"
+  }
+}

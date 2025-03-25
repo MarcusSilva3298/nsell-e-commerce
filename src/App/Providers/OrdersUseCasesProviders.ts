@@ -10,6 +10,7 @@ import { DeleteOderUseCase } from '../UseCases/Orders/DeleteOrderUseCase';
 import { HandleOrderItemUseCase } from '../UseCases/Orders/HandleOrderItemUseCase';
 import { ReadOrderUseCase } from '../UseCases/Orders/ReadOrderUseCase';
 import { SearchOrdersUseCase } from '../UseCases/Orders/SearchOrdersUseCase';
+import { UpdateOrderStatusUseCase } from '../UseCases/Orders/UpdateOrderStatusUseCase';
 
 export const ordersExports: string[] = Object.values(OrdersUseCasesEnum);
 
@@ -53,5 +54,11 @@ export const ordersProviders: Provider[] = [
     inject: [OrdersRepository],
     useFactory: (ordersRepository: IOrdersRepository) =>
       new CleanOrderUseCase(ordersRepository),
+  },
+  {
+    provide: OrdersUseCasesEnum.UPDATE_STATUS,
+    inject: [OrdersRepository],
+    useFactory: (ordersRepository: IOrdersRepository) =>
+      new UpdateOrderStatusUseCase(ordersRepository),
   },
 ];

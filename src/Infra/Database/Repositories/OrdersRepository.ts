@@ -103,6 +103,16 @@ export class OrdersRepository implements OnModuleInit, IOrdersRepository {
     });
   }
 
+  async updateOrderStatus(
+    id: string,
+    status: OrderStatusValuesEnum,
+  ): Promise<Order> {
+    return await this.database.order.update({
+      where: { id },
+      data: { orderStatusValue: status },
+    });
+  }
+
   async findById(id: string): Promise<Order | null> {
     return await this.database.order.findUnique({
       include: { OrderItems: true },

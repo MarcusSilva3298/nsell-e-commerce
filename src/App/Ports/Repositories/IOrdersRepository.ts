@@ -11,6 +11,7 @@ export interface IOrdersRepository {
   create(clientId: string, orderItem?: OrderItemPersistanceDto): Promise<Order>;
   handleOrderItem(dto: HandleOrderItemPersistanceDto): Promise<Order>;
   cleanOrder(id: string): Promise<Order>;
+  updateOrderStatus(id: string, status: OrderStatusValuesEnum): Promise<Order>;
   findById(id: string): Promise<Order | null>;
   delete(id: string): Promise<Order>;
   search(query: SearchOrdersQueryDto, clientId?: string): Promise<Order[]>;
