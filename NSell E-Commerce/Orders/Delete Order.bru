@@ -13,9 +13,3 @@ delete {
 params:path {
   id: 0195c8af-f989-7548-9dcd-e66f4ea6cfa7
 }
-
-script:post-response {
-  if (res.status !== 201) return
-  bru.setEnvVar('accessToken', res.body.accessToken)
-  bru.setEnvVar('refreshToken', res.body.refreshToken)
-}

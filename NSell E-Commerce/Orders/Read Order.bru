@@ -11,11 +11,5 @@ get {
 }
 
 params:path {
-  id: 0195c89c-ddc9-7018-a93b-0071c2ab8304
-}
-
-script:post-response {
-  if (res.status !== 201) return
-  bru.setEnvVar('accessToken', res.body.accessToken)
-  bru.setEnvVar('refreshToken', res.body.refreshToken)
+  id: 0195c990-ae27-7683-9d78-9bd5e9f22cc0
 }

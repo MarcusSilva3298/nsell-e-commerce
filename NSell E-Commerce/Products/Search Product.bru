@@ -33,9 +33,3 @@ body:json {
     ]
   }
 }
-
-script:post-response {
-  if (res.status !== 201) return
-  bru.setEnvVar('accessToken', res.body.accessToken)
-  bru.setEnvVar('refreshToken', res.body.refreshToken)
-}

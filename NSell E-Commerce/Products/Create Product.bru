@@ -12,24 +12,18 @@ post {
 
 body:json {
   {
-    "name": "Monster Mango Loco",
-    "description": "Monster Energy Drink sabor Mango Loco",
+    "name": "Monster No Sugar",
+    "description": "Monster Energy Drink no sugar",
     "price": 9,
     "stock": 5,
     "Tags": [
       {
-         "id": "0195b9f7-8857-77cb-a685-e815ac100f87"
+         "id": "0195caf2-da76-7180-92b5-bc498d925147"
       },
       {
-        "label": "energy drinks",
-        "value": "energyDrinks"
+        "label": "no sugar",
+        "value": "noSugar"
       }
     ]
   }
-}
-
-script:post-response {
-  if (res.status !== 201) return
-  bru.setEnvVar('accessToken', res.body.accessToken)
-  bru.setEnvVar('refreshToken', res.body.refreshToken)
 }
