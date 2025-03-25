@@ -28,6 +28,12 @@ export class EnvClass {
   REFRESH_SECRET: string;
 
   @IsNumber()
+  @IsNotEmpty()
   @Expose()
   REFRESH_EXPIRES_IN: number;
+
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  STRIPE_SECRET_KEY: string;
 }
