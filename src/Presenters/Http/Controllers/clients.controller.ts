@@ -43,8 +43,6 @@ export class ClientsController {
 
   @Get()
   search(@Query() filters: SearchClientsQueryDto): Promise<Client[]> {
-    console.log(filters);
-
     return this.searchClientUseCase.execute(filters);
   }
 
