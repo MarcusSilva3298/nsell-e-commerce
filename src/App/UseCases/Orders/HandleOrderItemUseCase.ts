@@ -1,6 +1,6 @@
-import { ConflictException } from '@nestjs/common';
 import { Order } from '../../../Domain/Entities/Order';
 import { User } from '../../../Domain/Entities/User';
+import { OrderAlreadyConfirmedException } from '../../../Domain/Errors/Orders/OrderAlreadyConfirmedException';
 import { OrderNotFoundException } from '../../../Domain/Errors/Orders/OrderNotFoundException';
 import { NotEnoughInStock } from '../../../Domain/Errors/Products/NotEnoughInStockException';
 import { ProductNotFoundException } from '../../../Domain/Errors/Products/ProductNotFoundException';
@@ -31,11 +31,8 @@ export class HandleOrderItemUseCase
     if (
       orderExists.orderStatusValue !==
       (OrderStatusValuesEnum.AWAITING_PAYMENT as string)
-    ) {
-      throw new ConflictException(
-        'Order already confirmed! Items can no longer be modified',
-      );
-    }
+    )
+      throw new OrderAlreadyConfirmedException();
 
     const productExists = await this.productsRepository.findById(
       body.productId,
