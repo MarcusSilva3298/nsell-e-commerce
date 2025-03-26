@@ -32,7 +32,7 @@ export class ProductsFactoryDto {
 
   @IsArray()
   @IsOptional()
-  @ValidateNested()
+  @ValidateNested({ each: true })
   @Type(() => TagsFactoryDto)
   Tags: TagsFactoryDto[];
 }
