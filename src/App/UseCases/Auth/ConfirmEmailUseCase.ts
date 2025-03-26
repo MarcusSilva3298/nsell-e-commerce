@@ -12,7 +12,6 @@ export class ConfirmEmailUseCase implements IUseCase<User, [string]> {
 
   async execute(token: string): Promise<User> {
     const payload = this.tokenService.verifyConfirmMail(token);
-    console.log(payload);
 
     const userExists = await this.usersRepository.findById(payload.id);
 
