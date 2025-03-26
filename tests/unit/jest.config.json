@@ -1,0 +1,10 @@
+{
+  "preset": "ts-jest",
+  "rootDir": "../..",
+  "testRegex": "unit/.*\\.spec\\.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "testEnvironment": "node",
+  "transformIgnorePatterns": ["node_modules"]
+}
