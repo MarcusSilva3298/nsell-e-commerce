@@ -1,5 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
 import { SignUpDto } from '../../../Domain/Shared/Dtos/Auth/SignUpDto';
+import { IPayload } from '../../../Domain/Shared/Interfaces/IPayload';
 import { ISignUpResponse } from '../../../Domain/Shared/Interfaces/ISignUpResponse';
 import { IUseCase } from '../../../Domain/Shared/Interfaces/IUseCase';
 import { PresentersUtils } from '../../../Domain/Shared/Utils/PresentersUtils';
@@ -30,13 +31,15 @@ export class SignUpUseCase implements IUseCase<ISignUpResponse, [SignUpDto]> {
 
     const client = await this.clientsRepository.create(body);
 
-    const accessToken = this.tokenService.signAccess({ id: client.userId });
+    const payload: IPayload = { id: client.userId };
 
-    const refreshToken = this.tokenService.signRefresh({ id: client.userId });
+    const accessToken = this.tokenService.signAccess(payload);
+    const refreshToken = this.tokenService.signRefresh(payload);
+    const confirmMailToken = this.tokenService.signConfirmMail(payload);
 
     this.mailService.sendVerifyEmail(body.email, {
       name: body.name,
-      href: 'stock-href',
+      token: confirmMailToken,
     });
 
     return {

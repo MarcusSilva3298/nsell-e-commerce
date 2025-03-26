@@ -19,4 +19,11 @@ export class UsersRepository implements IUserRepository {
       where: { email, deletedAt: null },
     });
   }
+
+  async confirmEmail(id: string): Promise<User> {
+    return await this.database.user.update({
+      where: { id },
+      data: { verifiedEmail: true },
+    });
+  }
 }

@@ -9,8 +9,11 @@ import { EnviromentService } from './enviroment.service';
 @Injectable()
 export class MailService {
   private readonly transporter: HbsTransporter;
+  private readonly host: string;
 
   constructor(enviromentService: EnviromentService) {
+    this.host = enviromentService.get(EnvVariablesEnum.HOST);
+
     this.transporter = createTransport({
       host: enviromentService.get(EnvVariablesEnum.MAILTRAP_HOST),
       port: enviromentService.get(EnvVariablesEnum.MAILTRAP_PORT),
@@ -57,6 +60,11 @@ export class MailService {
   }
 
   sendVerifyEmail(to: string, context: ISendVerifyEmail): void {
-    this.sendMail(to, 'Verify Your E-mail', 'verifyEmail', context);
+    const href = this.host.concat(`/auth/confirmEmail?token=${context.token}`);
+
+    this.sendMail(to, 'Verify Your E-mail', 'verifyEmail', {
+      ...context,
+      href,
+    });
   }
 }

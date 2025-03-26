@@ -6,4 +6,7 @@ export interface ITokenService {
 
   signRefresh(payload: IPayload): string;
   verifiyRefresh(token: string): IPayload;
+
+  signConfirmMail(payload: IPayload): string;
+  verifyConfirmMail(token: string): IPayload;
 }

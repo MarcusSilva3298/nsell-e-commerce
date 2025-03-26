@@ -10,6 +10,7 @@ import { IUserRepository } from '../Ports/Repositories/IUsersRepository';
 import { IHashService } from '../Ports/Services/IHashService';
 import { IMailService } from '../Ports/Services/IMailService';
 import { ITokenService } from '../Ports/Services/ITokenService';
+import { ConfirmEmailUseCase } from '../UseCases/Auth/ConfirmEmailUseCase';
 import { SignInUseCase } from '../UseCases/Auth/SignInUseCase';
 import { SignUpUseCase } from '../UseCases/Auth/SignUpUseCase';
 
@@ -48,5 +49,13 @@ export const authProviders: Provider[] = [
         tokenSerice,
         mailService,
       ),
+  },
+  {
+    provide: AuthUseCasesEnum.CONFIRM_EMAIL,
+    inject: [TokenService, UsersRepository],
+    useFactory: (
+      tokenSerice: ITokenService,
+      usersRepository: IUserRepository,
+    ) => new ConfirmEmailUseCase(tokenSerice, usersRepository),
   },
 ];

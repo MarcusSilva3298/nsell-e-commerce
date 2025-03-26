@@ -1,3 +1,4 @@
+import { ConflictException } from '@nestjs/common';
 import { InvalidCredentialsException } from '../../../Domain/Errors/Auth/InvalidCredentialsException';
 import { SignInDto } from '../../../Domain/Shared/Dtos/Auth/SignInDto';
 import { ISignResponse } from '../../../Domain/Shared/Interfaces/ISignInResponse';
@@ -25,6 +26,9 @@ export class SignInUseCase implements IUseCase<ISignResponse, [SignInDto]> {
     );
 
     if (!isPassword) throw new InvalidCredentialsException();
+
+    if (!userExists.verifiedEmail)
+      throw new ConflictException('Confirm your E-mail before continuing');
 
     const accessToken = this.tokenService.signAccess({ id: userExists.id });
 

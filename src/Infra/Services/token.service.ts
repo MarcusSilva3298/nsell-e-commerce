@@ -15,6 +15,7 @@ export class TokenService implements ITokenService {
   private readonly accessExpiresIn: number;
   private readonly refreshSecret: string;
   private readonly refreshExpiresIn: number;
+  private readonly confirmMailSecret: string;
 
   constructor(enviromentService: EnviromentService) {
     this.accessSecret = enviromentService.get(EnvVariablesEnum.TOKEN_SECRET);
@@ -25,6 +26,9 @@ export class TokenService implements ITokenService {
     this.refreshSecret = enviromentService.get(EnvVariablesEnum.REFRESH_SECRET);
     this.refreshExpiresIn = enviromentService.get(
       EnvVariablesEnum.REFRESH_EXPIRES_IN,
+    );
+    this.confirmMailSecret = enviromentService.get(
+      EnvVariablesEnum.CONFIRM_MAIL_SECRET,
     );
   }
 
@@ -76,5 +80,13 @@ export class TokenService implements ITokenService {
 
   verifiyRefresh(token: string): IPayload {
     return this.verifiy(token, this.refreshSecret);
+  }
+
+  signConfirmMail(payload: IPayload): string {
+    return this.sign(payload, this.confirmMailSecret, { expiresIn: '10y' });
+  }
+
+  verifyConfirmMail(token: string): IPayload {
+    return this.verifiy(token, this.confirmMailSecret);
   }
 }

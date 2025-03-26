@@ -35,6 +35,11 @@ export class EnvClass {
   @IsString()
   @IsNotEmpty()
   @Expose()
+  CONFIRM_MAIL_SECRET: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
   STRIPE_SECRET_KEY: string;
 
   @IsString()
@@ -56,4 +61,9 @@ export class EnvClass {
   @IsNotEmpty()
   @Expose()
   MAILTRAP_AUTH_PASS: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  HOST: string;
 }

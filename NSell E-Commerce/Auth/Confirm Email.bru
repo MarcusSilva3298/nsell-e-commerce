@@ -1,0 +1,26 @@
+meta {
+  name: Confirm Email
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/auth/confirmEmail
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTVkMDg4LTc5YzktNzQxYy1iODM0LWEzNWNmNTU2N2M4NCIsImlhdCI6MTc0Mjk2MDM1OX0.pUFmVpXBp9POrhRAWks0vHV-tQkaH25kkMBbm-dzeeU
+}
+
+body:json {
+  {
+    "name": "Winslow",
+    "fullname": "Winslow Lipscomb",
+    "email": "wlipscomb2@jigsy.com",
+    "address": "64878 Garrison Way",
+    "contact": "303-111-2294",
+    "password": "Generic@2025"
+  }
+}

@@ -6,6 +6,8 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Request } from 'express';
+import { InvalidTokenContentException } from '../../../Domain/Errors/Auth/InvalidTokenContentException';
+import { AuthUtils } from '../../../Domain/Shared/Utils/AuthUtils';
 import { UsersRepository } from '../../../Infra/Database/Repositories/UserRepository';
 import { TokenService } from '../../../Infra/Services/token.service';
 
@@ -18,7 +20,7 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
-    const token = this.extractTokenFromHeader(request);
+    const token = AuthUtils.extractTokenFromHeader(request);
 
     if (!token) throw new UnauthorizedException('Invalid Header');
 
@@ -26,15 +28,10 @@ export class AuthGuard implements CanActivate {
 
     const userExists = await this.usersRepository.findById(payload.id);
 
-    if (!userExists) throw new UnauthorizedException('Invalid Token Content');
+    if (!userExists) throw new InvalidTokenContentException();
 
     request['user'] = userExists;
 
     return true;
-  }
-
-  private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = (request.headers.authorization || '').split(' ');
-    return type === 'Bearer' ? token : undefined;
   }
 }
