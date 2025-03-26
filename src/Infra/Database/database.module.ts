@@ -3,6 +3,7 @@ import { DatabaseService } from './database.service';
 import { ClientsRepository } from './Repositories/ClientsRepository';
 import { OrdersRepository } from './Repositories/OrdersRepository';
 import { ProductsRepository } from './Repositories/ProductsRepository';
+import { ReportsRepository } from './Repositories/ReportsRepository';
 import { UsersRepository } from './Repositories/UserRepository';
 
 const repositories: Provider[] = [
@@ -10,6 +11,7 @@ const repositories: Provider[] = [
   ClientsRepository,
   ProductsRepository,
   OrdersRepository,
+  ReportsRepository,
 ];
 
 @Module({

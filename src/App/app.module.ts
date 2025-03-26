@@ -14,6 +14,10 @@ import {
   productsExports,
   productsProviders,
 } from './Providers/ProductsUseCasesProviders';
+import {
+  reportsExports,
+  reportsProviders,
+} from './Providers/ReportsUseCasesProvider';
 
 @Module({
   imports: [ServicesModule, DatabaseModule],
@@ -22,12 +26,14 @@ import {
     ...clientsProviders,
     ...productsProviders,
     ...ordersProviders,
+    ...reportsProviders,
   ],
   exports: [
     ...authExports,
     ...clientsExports,
     ...productsExports,
     ...ordersExports,
+    ...reportsExports,
   ],
 })
 export class AppModule {}

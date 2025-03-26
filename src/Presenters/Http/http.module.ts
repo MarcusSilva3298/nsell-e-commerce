@@ -6,6 +6,7 @@ import { AuthController } from './Controllers/auth.controller';
 import { ClientsController } from './Controllers/clients.controller';
 import { OrdersController } from './Controllers/orders.controller';
 import { ProductsController } from './Controllers/products.controller';
+import { ReportsController } from './Controllers/reports.controller';
 import { HttpController } from './http.controller';
 
 @Module({
@@ -16,6 +17,7 @@ import { HttpController } from './http.controller';
     ClientsController,
     ProductsController,
     OrdersController,
+    ReportsController,
   ],
 })
 export class HttpModule {}
