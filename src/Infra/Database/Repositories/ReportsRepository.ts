@@ -38,8 +38,6 @@ export class ReportsRepository {
 
     query += ` GROUP BY p.id, p.name ORDER BY Profit DESC;`;
 
-    console.log(params, query);
-
     return await this.databaseService.$queryRawUnsafe(query, ...params);
   }
 }
