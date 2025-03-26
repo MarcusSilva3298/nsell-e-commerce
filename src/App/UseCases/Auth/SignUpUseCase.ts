@@ -6,6 +6,7 @@ import { PresentersUtils } from '../../../Domain/Shared/Utils/PresentersUtils';
 import { IClientsRepository } from '../../Ports/Repositories/IClientsRepository';
 import { IUserRepository } from '../../Ports/Repositories/IUsersRepository';
 import { IHashService } from '../../Ports/Services/IHashService';
+import { IMailService } from '../../Ports/Services/IMailService';
 import { ITokenService } from '../../Ports/Services/ITokenService';
 
 export class SignUpUseCase implements IUseCase<ISignUpResponse, [SignUpDto]> {
@@ -14,6 +15,7 @@ export class SignUpUseCase implements IUseCase<ISignUpResponse, [SignUpDto]> {
     private readonly hashService: IHashService,
     private readonly clientsRepository: IClientsRepository,
     private readonly tokenService: ITokenService,
+    private readonly mailService: IMailService,
   ) {}
 
   async execute(body: SignUpDto): Promise<ISignUpResponse> {
@@ -31,6 +33,11 @@ export class SignUpUseCase implements IUseCase<ISignUpResponse, [SignUpDto]> {
     const accessToken = this.tokenService.signAccess({ id: client.userId });
 
     const refreshToken = this.tokenService.signRefresh({ id: client.userId });
+
+    this.mailService.sendVerifyEmail(body.email, {
+      name: body.name,
+      href: 'stock-href',
+    });
 
     return {
       accessToken,

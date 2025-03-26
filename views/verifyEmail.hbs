@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      .container {
+        width: 100%;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        color: #333333;
+      }
+      p {
+        font-size: 16px;
+        color: #555555;
+      }
+      .verify-button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Email Verification</h2>
+      <p>Hello {{name}}!</p>
+      <p>You have registered on our platform. To verify your email and complete the registration process, click the button below:</p>
+      <a href="{{href}}" class="verify-button">Verify Email</a>
+      <p>If you did not request this, please ignore this email.</p>
+      <p>Best regards,<br>NSell Team</p>
+    </div>
+  </body>
+</html>

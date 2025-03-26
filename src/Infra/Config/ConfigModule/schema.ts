@@ -36,4 +36,24 @@ export class EnvClass {
   @IsNotEmpty()
   @Expose()
   STRIPE_SECRET_KEY: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  MAILTRAP_HOST: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  @Expose()
+  MAILTRAP_PORT: number;
+
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  MAILTRAP_AUTH_USER: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  MAILTRAP_AUTH_PASS: string;
 }

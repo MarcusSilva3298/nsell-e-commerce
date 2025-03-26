@@ -4,6 +4,7 @@ import { validateEnvVariables } from '../Config/ConfigModule/validate';
 import { CsvService } from './csv.service';
 import { EnviromentService } from './enviroment.service';
 import { HashService } from './hash.service';
+import { MailService } from './mail.service';
 import { PaymentService } from './payment.service';
 import { TokenService } from './token.service';
 
@@ -13,6 +14,7 @@ const services: Provider[] = [
   TokenService,
   PaymentService,
   CsvService,
+  MailService,
 ];
 
 @Module({
